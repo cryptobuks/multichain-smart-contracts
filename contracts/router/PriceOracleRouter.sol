@@ -13,7 +13,7 @@ contract PriceOracleRouter is MPCManageable, PriceOracleInterface {
     uint256 public _decimal;
 
     struct CurrencyInfo {
-        uint112 price;
+        uint128 price;
         uint64 decimal;
         uint64 lateUpdateTime;
     }
@@ -59,7 +59,7 @@ contract PriceOracleRouter is MPCManageable, PriceOracleInterface {
 
     function setPricesBatch(
         uint256[] calldata chainIDs,
-        uint112[] calldata prices
+        uint128[] calldata prices
     ) external onlyManager {
         require(
             chainIDs.length == prices.length,
@@ -70,7 +70,7 @@ contract PriceOracleRouter is MPCManageable, PriceOracleInterface {
         }
     }
 
-    function setPrice(uint256 chainID, uint112 price) public onlyManager {
+    function setPrice(uint256 chainID, uint128 price) public onlyManager {
         CurrencyInfo storage currencyInfo = _currencyInfos[chainID];
         currencyInfo.price = price;
         currencyInfo.lateUpdateTime = uint64(block.timestamp);
@@ -98,7 +98,7 @@ contract PriceOracleRouter is MPCManageable, PriceOracleInterface {
 
     function initCurrencyInfo(
         uint256 chainID,
-        uint112 price,
+        uint128 price,
         uint64 decimal
     ) external onlyManager {
         CurrencyInfo storage currencyInfo = _currencyInfos[chainID];
